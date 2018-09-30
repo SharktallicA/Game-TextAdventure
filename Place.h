@@ -19,7 +19,7 @@ private:
 
 public:
 	Place(string nName, Costs* nCosts) { name = nName; costs = nCosts; }
-	~Place() { delete north, east, south, west, costs; }
+	~Place(void) { delete north, east, south, west, costs; }
 
 	//Defines the layout of places relative to this one
 	void MapPlaces(Place* nNorth = nullptr, Place* nEast = nullptr, Place* nSouth = nullptr, Place* nWest = nullptr)
@@ -37,24 +37,36 @@ public:
 	}
 
 	//Returns this places's name
-	string GetName() { return name; }
+	string GetName(void) { return name; }
 
-	PlaceChangeData* GoNorth()
+	//Returns this place's neighbours
+	string GetNeighbours()
+	{
+		string result = name + "'s neighbours: ";
+
+		if (north) result += "(n) " + north->GetName() + " ";
+		if (east) result += "(e) " + east->GetName() + " ";
+		if (south) result += "(s) " + south->GetName() + " ";
+		if (west) result += "(w) " + west->GetName() + " ";
+		return result;
+	}
+
+	PlaceChangeData* GoNorth(void)
 	{
 		if (!north) return new PlaceChangeData(this, 0);
 		return new PlaceChangeData(north, costs->n);
 	}
-	PlaceChangeData* GoEast()
+	PlaceChangeData* GoEast(void)
 	{
 		if (!east) return new PlaceChangeData(this, 0);
 		return new PlaceChangeData(east, costs->e);
 	}
-	PlaceChangeData* GoSouth()
+	PlaceChangeData* GoSouth(void)
 	{
 		if (!south) return new PlaceChangeData(this, 0);
 		return new PlaceChangeData(south, costs->s);
 	}
-	PlaceChangeData* GoWest()
+	PlaceChangeData* GoWest(void)
 	{
 		if (!west) return new PlaceChangeData(this, 0);
 		return new PlaceChangeData(west, costs->w);

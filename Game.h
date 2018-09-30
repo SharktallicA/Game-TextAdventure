@@ -17,6 +17,15 @@ private:
 	//Temporary place data for when needed
 	PlaceChangeData* tempPlace = nullptr;
 
+	//Name of the loaded game
+	string gameName;
+	//Name of the travel method the player uses
+	string travelMethod;
+	//Unit of distance the player travels at
+	string distanceUnit;
+	//Flags whether area map is enabled for the loaded game
+	bool enableAreaMap;
+
 	//Loads and returns the raw place data from the "game.txt" file
 	vector<vector<string>> loadPlaces(void)
 	{
@@ -31,7 +40,20 @@ private:
 			vector<string> delimited;
 			stringstream pStream(line);
 
-			if (line[0] == ':') Utility::setWindowTitle(line.substr(1, line.length())); //read the first metadata line for the game's name
+			if (line[0] == ':')
+			{
+				while (pStream.good())
+				{
+					string sub;
+					getline(pStream, sub, ',');
+					delimited.push_back(sub);
+				}
+				Utility::setWindowTitle(gameName = delimited[0].substr(1, line.length())); //read the first metadata line for the game's name
+				travelMethod = delimited[1];
+				distanceUnit = delimited[2];
+				if (delimited[3][0] == 'Y' || delimited[3][0] == 'y') enableAreaMap = true;
+				else if (delimited[3][0] == 'n' || delimited[3][0] == 'n') enableAreaMap = false;
+			}
 			else if (line[0] != '#') //prevent operation for any comment or metadata lines within the text file
 			{
 				while (pStream.good())
@@ -95,17 +117,18 @@ private:
 		currentPlace = places[Utility::generateNumber32(0, places.size())];
 	}
 
-	//Inteprets human input and resolves it to a short-hand single letter command
-	string GetHumanCommand(void)
+	//Inteprets player input and resolves it to a short-hand single letter command
+	string getPlayerInput(void)
 	{
 		//get command
 		string input = Utility::getString("CMD: ");
 
 		//intepret command
-		if (input == "n" || input == "N" || input == "north" || input == "North") return "n";
-		else if (input == "e" || input == "E" || input == "east" || input == "East") return  "e";
-		else if (input == "s" || input == "S" || input == "south" || input == "South") return  "s";
-		else if (input == "w" || input == "W" || input == "west" || input == "West") return  "w";
+		if (input == "n" || input == "N" || input == "north" || input == "North" || input == "go north" || input == "Go North") return "n";
+		else if (input == "e" || input == "E" || input == "east" || input == "East" || input == "go east" || input == "Go East") return  "e";
+		else if (input == "s" || input == "S" || input == "south" || input == "South" || input == "go south" || input == "Go South") return  "s";
+		else if (input == "w" || input == "W" || input == "west" || input == "West" || input == "go west" || input == "Go West") return  "w";
+		else if ((input == "m" || input == "M" || input == "map" || input == "Map" || input == "get map" || input == "Get Map") && enableAreaMap) return  "m";
 		else if (input == "h" || input == "H" || input == "help" || input == "Help" || input == "c" || input == "C" || input == "commands" || input == "Commands") return  "h";
 		else if (input == "exit" || input == "Exit" || input == "q" || input == "quit" || input == "Quit" || input == "kill" || input == "Kill") return  "q";
 		else return "i";
@@ -128,12 +151,14 @@ public:
 	{
 		while (true)
 		{
-			cout << "You're in the " << currentPlace->GetName() << "!" << endl;
-			string cmd = GetHumanCommand();
+			cout << "You're at " << currentPlace->GetName() << "!" << endl;
+			string cmd = getPlayerInput();
 
 			if (cmd == "q") break;
 			else if (cmd == "i") cout << "Invalid command!" << endl << endl;
-			else if (cmd == "h") cout << "Command list: (n) go north, (e) go east, (s) go south, (w) go west, (q) quit" << endl << endl;
+			else if (cmd == "h" && enableAreaMap) cout << "Command list: (n) go north (e) go east (s) go south (w) go west (m) show area map (q) quit" << endl << endl;
+			else if (cmd == "h" && !enableAreaMap) cout << "Command list: (n) go north (e) go east (s) go south (w) go west (q) quit" << endl << endl;
+			else if (cmd == "m") cout << currentPlace->GetNeighbours() << endl << endl;
 			else
 			{
 				if (cmd == "n") tempPlace = currentPlace->GoNorth();
@@ -145,7 +170,7 @@ public:
 				else
 				{
 					currentPlace = tempPlace->nextPlace;
-					cout << "You spent " << tempPlace->costOfTravel << " seconds walking!" << endl << endl;
+					cout << "You " << travelMethod << "ed " << tempPlace->costOfTravel << " " << distanceUnit << "s!" << endl << endl;
 					tempPlace = nullptr;
 				}
 			}

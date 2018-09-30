@@ -40,5 +40,8 @@
     <Text Include="game.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Games\tot.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

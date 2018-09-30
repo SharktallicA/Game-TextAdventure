@@ -1,0 +1,17 @@
+#Format: Game Name,Method of Travel,Unit of Distance,Y(es)/N(o) to Enabling Map
+:Tunnels of Terror,walk,metre,no
+# Format: Place Name,Place Name to North,Place Name to East,Place to South,Place Name to West,North Cost,East Cost,South Cost,West Cost
+# Names are strings, costs are ints, and any blank walls are "-" (withouth quotes)
+Entrance,Damp Cavern,-,-,-,1,0,0,0
+Library,-,Mysterious Room,Trolls Room,-,0,3,1,0
+Mysterious Room,Library,-,Great Hall,Trolls Room,3,0,4,3
+Trolls Room,Library,Mysterious Room,Great Hall,-,1,3,2,0
+Great Hall,Bottle Room,Mysterious Room,Kitchen,Trolls Room,2,4,1,2
+Bottle Room,-,-,Larder,Great Hall,0,0,1,1
+Larder,Bottle Room,-,Well Room,Kitchen,1,0,10,1
+Kitchen,Great Hall,Larder,Ice Box,Damp Cavern,1,1,2,2
+Ice Box,Kitchen,-,-,-,10,0,0,0
+Damp Cavern,Well Room,Kitchen,Entrance,Guard Room,1,2,2,1
+Well Room,-,-,Damp Cavern,Larder,0,0,1,10
+Barracks,-,-,Guard Room,-,0,0,2,0
+Guard Room,Barracks,Damp Cavern,-,-,2,1,0,0

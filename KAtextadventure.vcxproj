@@ -126,6 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="game.txt" />
+    <Text Include="Games\tot.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
