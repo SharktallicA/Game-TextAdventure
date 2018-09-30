@@ -1,24 +1,22 @@
 /*
+	Game-TextAdventure
 	Khalid Ali 2018
+	http://khalidali.co.uk/
 
 	Notes:
-		Based on a tutorial exercise from University module for Artificial Intelligence for Game Developers
-		Map construction; the rooms (represented as Room objects) are linked to together in an up to four-way doubly-linked list of sorts
-		Human play; played as a simple text adventure-esque fashion
+		Based on a tutorial exercise from University module "Artificial Intelligence for Game Developers"
 */
 
-#include <iostream>
-#include <string>
 #include "Game.h"
-#include "Costs.h"
-#include "RoomChangeData.h"
-#include "Room.h"
 
 using namespace std;
 
 int main(void)
 {
+	Utility::setWindowTitle("Game-TextAdventure");
+	Utility::setColour(WHITE, BLACK);
+
 	Game nGame;
-	while (nGame.playing());
+	nGame.play();
 	return 0;
 }

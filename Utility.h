@@ -1,6 +1,11 @@
 #pragma once
+/*
+	C++ general utility functions
+	Khalid Ali 2018
+	http://khalidali.co.uk/
+*/
+
 #include <iostream>
-#include <string>
 #include <sstream>
 #include <random>
 #include <windows.h>
@@ -8,24 +13,23 @@
 
 using namespace std;
 
+//Enumeration of possible foreground and background colours that the C++ console can be set to
 enum Colour
 {
-	BLACK, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, DEFAULT, GRAY, LIGHT_BLUE,
+	BLACK, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, DEFAULT, GREY, LIGHT_BLUE,
 	LIGHT_GREEN, LIGHT_AQUA, LIGHT_RED, LIGHT_PURPLE, LIGHT_YELLOW, WHITE
 };
 
+//Class of static methods that provide utility functions for C++ console applications
 class Utility
 {
-	//purpose: provides program-wide methods for common functions
-
 private:
 	Utility() {}; //prevents class from being constructed
-	~Utility() {};
+
 public:
+	//Requests yes (true)/no (false) boolean input from the user
 	static bool Utility::getYesNo(void)
 	{
-		//purpose: requests yes/no response from user
-
 		string strInput = "";
 		bool boolIsYes = true;
 
@@ -42,11 +46,9 @@ public:
 			boolIsYes = false;
 		return boolIsYes;
 	}
+	//Requests yes (true)/no (false) boolean input from the user with a given input notice message
 	static bool Utility::getYesNo(string strMessage)
 	{
-		//purpose: requests yes/no response from user
-		//parameters: (strMessage) required notice of entry
-
 		string strInput = "";
 		bool boolIsYes = true;
 
@@ -66,29 +68,25 @@ public:
 		return boolIsYes;
 	}
 
+	//Safely requests any string input from the user
 	static string Utility::getString(void)
 	{
-		//purpose: gets any string value safely (requires a notice for entry beforehand)
-
 		string strInput = "";
 		getline(cin, strInput);
 		return strInput;
 	}
+	//Safely requests any string input from the user with a given input notice message
 	static string Utility::getString(string strMessage)
 	{
-		//purpose: gets any string value safely (is given notice of entry)
-		//parameters: (strMessage) required notice of entry
-
 		cout << strMessage;
 		string strInput = "";
 		getline(cin, strInput);
 		return strInput;
 	}
 
+	//Safely requests integer input from the user
 	static int Utility::getInteger(void)
 	{
-		//purpose: gets any integer value safely (requires a notice for entry beforehand)
-
 		string strInput = "";
 		int intInputAsInt = -1024;
 
@@ -98,11 +96,9 @@ public:
 		strStream >> intInputAsInt;
 		return intInputAsInt;
 	}
+	//Safely requests integer input from the user with a given input notice message
 	static int Utility::getInteger(string strMessage, int intMin, int intMax)
 	{
-		//purpose: gets any integer value safely (is given notice of entry)
-		//parameters: (strMessage) required notice of entry, (intMin) minimum value limit, (intMax) maximum value limit
-
 		string strInput = "";
 		int intInputAsInt = -1024;
 
@@ -122,11 +118,19 @@ public:
 		return intInputAsInt;
 	}
 
-	static int Utility::generateNumber(int intMin, int intMax)
+	//Generates a random number using 32-Bit Mersenne Twister 19937
+	static int Utility::generateNumber32(int intMin, int intMax)
 	{
-		//purpose: generates a number using Mersenne Twister 19937 method with provided minimum and maximum values for range
-		//parameters: (intMin) minimum bound for range, (intMax) maximum bound for range
-
+		int intResult;
+		random_device randGenerator;
+		mt19937 mersenne(randGenerator());
+		uniform_int_distribution<int> distInt(intMin, intMax);
+		intResult = distInt(mersenne);
+		return intResult;
+	}
+	//Generates a random number using 64-Bit Mersenne Twister 19937
+	static int Utility::generateNumber64(int intMin, int intMax)
+	{
 		int intResult;
 		random_device randGenerator;
 		mt19937_64 mersenne(randGenerator());
@@ -135,19 +139,19 @@ public:
 		return intResult;
 	}
 
+	//Clears the screen
 	static void Utility::clearScreen(void)
 	{
-		//purpose: clears the screen
 		system("cls");
 	}
 
+	//Sets the C++ console window's title
 	static void Utility::setWindowTitle(string strTitle)
 	{
-		//purpose: sets the window title
-		//parametres: (strTitle) specified title for window
 		SetConsoleTitle(strTitle.c_str());
 	}
 
+	//Sets the C++ console window's size
 	static void Utility::setWindowSize(unsigned int uintWidth, unsigned int uintHeight)
 	{
 		//purpose: sets the window size
@@ -160,7 +164,8 @@ public:
 		MoveWindow(console, rectWindow.left, rectWindow.top, uintWidth, uintHeight, TRUE);
 	}
 
-	static void Utility::setColour(Colour clrFore, Colour clrBack = BLACK)
+	//Sets the C++ console window's colours
+	static void Utility::setColour(Colour clrFore = WHITE, Colour clrBack = BLACK)
 	{
 		//purpose: sets the console colour
 		//parametres: (clrFore) enumeration for foreground colour, (clrBack) enumeration for background colour (defaulted as black)
@@ -171,11 +176,9 @@ public:
 		SetConsoleTextAttribute(handle, intColour);
 	}
 
+	//Moves the C++ console window's cursor
 	static void Utility::moveCursor(SHORT shrtX, SHORT shrtY)
 	{
-		//purpose: moves cursor 
-		//parametres: (uintWidth) specified cursor X, (uintHeight) specified cursor Y
-
 		HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD point = { shrtX, shrtY };
 		SetConsoleCursorPosition(handle, point);

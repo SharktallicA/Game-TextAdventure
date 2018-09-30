@@ -1,6 +1,6 @@
 #pragma once
-//Contains direction travel costs for a room
 
+//Contains directional travel costs for places
 class Costs
 {
 public:

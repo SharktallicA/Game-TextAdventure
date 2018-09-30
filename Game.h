@@ -8,10 +8,13 @@
 
 using namespace std;
 
+//Encapsulates all game functionality
 class Game
 {
 private:
+	//Current room the player is in
 	Room* currentRoom;
+	//Temporary room data for when needed
 	RoomChangeData* tempRoom = nullptr;
 
 	//Loads and returns the raw room data from the "rooms.txt" file
@@ -88,15 +91,14 @@ private:
 
 		// 4) Randomly select starting Room object
 
-		currentRoom = rooms[Utility::generateNumber(0, rooms.size())];
+		currentRoom = rooms[Utility::generateNumber32(0, rooms.size())];
 	}
 
 	//Inteprets human input and resolves it to a short-hand single letter command
 	string GetHumanCommand(void)
 	{
 		//get command
-		string input;
-		cin >> input;
+		string input = Utility::getString("CMD: ");
 
 		//intepret command
 		if (input == "n" || input == "N" || input == "north" || input == "North") return "n";
@@ -112,12 +114,11 @@ public:
 	Game(void) { assembleRooms(); }
 	~Game(void) { delete currentRoom, tempRoom; }
 
-	bool playing(void)
+	void play(void)
 	{
-		//game loop
 		while (true)
 		{
-			cout << "You're in the " << currentRoom->GetName() << "!" << endl << "CMD: ";
+			cout << "You're in the " << currentRoom->GetName() << "!" << endl;
 			string cmd = GetHumanCommand();
 
 			if (cmd == "q") break;
@@ -139,9 +140,5 @@ public:
 				}
 			}
 		}
-
-		//game has run its course; release memory and flag game as complete
-		delete currentRoom, tempRoom;
-		return false;
 	}
 };
