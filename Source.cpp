@@ -16,7 +16,11 @@ int main(void)
 	Utility::setWindowTitle("Game-TextAdventure");
 	Utility::setColour(WHITE, BLACK);
 
-	Game nGame;
-	nGame.play();
+	try
+	{
+		Game nGame;
+		nGame.play();
+	}
+	catch (...) { return 1; }
 	return 0;
 }

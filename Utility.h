@@ -145,6 +145,15 @@ public:
 		system("cls");
 	}
 
+	//Waits for user input - good replacement for system("pause")
+	static char Utility::pause(string strMessage = "Press any key to continue...")
+	{
+		cout << strMessage;
+		char in = _getch();
+		cout << endl;
+		return in;
+	}
+
 	//Sets the C++ console window's title
 	static void Utility::setWindowTitle(string strTitle)
 	{

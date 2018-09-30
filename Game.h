@@ -111,7 +111,16 @@ private:
 	}
 
 public:
-	Game(void) { assemblePlaces(); }
+	Game(void)
+	{
+		try { assemblePlaces(); }
+		catch(...)
+		{
+			cout << "Program cannot continue.\n";
+			Utility::pause();
+			throw;
+		}
+	}
 	~Game(void) { delete currentPlace, tempPlace; }
 
 	void play(void)
