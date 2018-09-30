@@ -120,12 +120,12 @@
   <ItemGroup>
     <ClInclude Include="Costs.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="Room.h" />
-    <ClInclude Include="RoomChangeData.h" />
+    <ClInclude Include="Place.h" />
+    <ClInclude Include="PlaceChangeData.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="rooms.txt" />
+    <Text Include="places.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

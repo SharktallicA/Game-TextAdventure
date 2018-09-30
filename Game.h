@@ -1,8 +1,8 @@
 #pragma once
 #include "Utility.h"
 #include "Costs.h"
-#include "RoomChangeData.h"
-#include "Room.h"
+#include "PlaceChangeData.h"
+#include "Place.h"
 #include <fstream>
 #include <vector>
 
@@ -12,21 +12,21 @@ using namespace std;
 class Game
 {
 private:
-	//Current room the player is in
-	Room* currentRoom;
-	//Temporary room data for when needed
-	RoomChangeData* tempRoom = nullptr;
+	//Current place the player is in
+	Place* currentPlace;
+	//Temporary place data for when needed
+	PlaceChangeData* tempPlace = nullptr;
 
-	//Loads and returns the raw room data from the "rooms.txt" file
-	vector<vector<string>> loadRooms(void)
+	//Loads and returns the raw place data from the "places.txt" file
+	vector<vector<string>> loadPlaces(void)
 	{
-		ifstream ifRooms("rooms.txt");
-		if (!ifRooms) throw "CRITICAL ERROR: ""rooms.txt"" data file is not present\n!";
+		ifstream ifPlaces("places.txt");
+		if (!ifPlaces) throw "CRITICAL ERROR: places.txt data file is not present!\n";
 
-		vector<vector<string>> rawRooms;
+		vector<vector<string>> rawPlaces;
 		string line;
 
-		while (getline(ifRooms, line))
+		while (getline(ifPlaces, line))
 		{
 			vector<string> delimited;
 			stringstream pStream(line);
@@ -39,59 +39,59 @@ private:
 					getline(pStream, sub, ',');
 					delimited.push_back(sub);
 				}
-				rawRooms.push_back(delimited);
+				rawPlaces.push_back(delimited);
 			}
 		}
-		return rawRooms;
+		return rawPlaces;
 	}
 
-	//Constructs the game's map as doubly-linked list of Room objects
-	void assembleRooms(void)
+	//Constructs the game's place map as doubly-linked list of place objects
+	void assemblePlaces(void)
 	{
-		// 1) Attempts to call for the loading of the rooms data text file
+		// 1) Attempts to call for the loading of the places data text file
 		// and get the result returned for processing
 
 		vector<vector<string>> raw;
-		try { raw = loadRooms(); }
+		try { raw = loadPlaces(); }
 		catch (char* msg)
 		{
 			cout << msg << endl;
 			throw;
 		}
 
-		// 2) Constructs a vector of Room objects from the raw data, using
-		// the room name and travel costs only at this point
+		// 2) Constructs a vector of Place objects from the raw data, using
+		// the place name and travel costs only at this point
 
-		vector<Room*> rooms;
-		for (vector<string> rawRoom : raw) rooms.push_back(new Room(rawRoom[0], new Costs(stoi(rawRoom[5]), stoi(rawRoom[6]), stoi(rawRoom[7]), stoi(rawRoom[8]))));
+		vector<Place*> places;
+		for (vector<string> rawPlace : raw) places.push_back(new Place(rawPlace[0], new Costs(stoi(rawPlace[5]), stoi(rawPlace[6]), stoi(rawPlace[7]), stoi(rawPlace[8]))));
 		
-		// 3) Maps out the relative (north, east, south, west) adjacent rooms
-		// for each Room object; for each Room object in rooms vector, use the raw
-		// room data to find out the names of its neighbours and them link
-		// their Room objects into the current one (and repeat) until (an up to
+		// 3) Maps out the relative (north, east, south, west) adjacent places
+		// for each Place object; for each Place object in places vector, use the raw
+		// place data to find out the names of its neighbours and them link
+		// their place objects into the current one (and repeat) until (an up to
 		// four-way) doubly-linked list is formed
 
-		for (int i = 0; i < rooms.size(); i++)
+		for (int i = 0; i < places.size(); i++)
 		{
-			vector<Room*> relativeRooms;
+			vector<Place*> relativePlaces;
 
-			//find and get the Room object adjacent to the current one
+			//find and get the Place object adjacent to the current one
 			for (int j = 1; j <= 4; j++)
 			{
-				if (raw[i][j] != "-") //work out the relative Room if one is specified in the raw data
+				if (raw[i][j] != "-") //work out the relative Place if one is specified in the raw data
 				{
-					for (Room* room : rooms) if (room->GetName() == raw[i][j]) relativeRooms.push_back(room);
+					for (Place* place : places) if (place->GetName() == raw[i][j]) relativePlaces.push_back(place);
 				}
-				else relativeRooms.push_back(nullptr); //nullptr to represent blank wall
+				else relativePlaces.push_back(nullptr); //nullptr to represent blank wall
 			}
 
-			//call for the mapping of the rooms to form the linked bonds
-			rooms[i]->MapRooms(relativeRooms[0], relativeRooms[1], relativeRooms[2], relativeRooms[3]);
+			//call for the mapping of the places to form the linked bonds
+			places[i]->MapPlaces(relativePlaces[0], relativePlaces[1], relativePlaces[2], relativePlaces[3]);
 		}
 
-		// 4) Randomly select starting Room object
+		// 4) Randomly select starting Place object
 
-		currentRoom = rooms[Utility::generateNumber32(0, rooms.size())];
+		currentPlace = places[Utility::generateNumber32(0, places.size())];
 	}
 
 	//Inteprets human input and resolves it to a short-hand single letter command
@@ -111,14 +111,14 @@ private:
 	}
 
 public:
-	Game(void) { assembleRooms(); }
-	~Game(void) { delete currentRoom, tempRoom; }
+	Game(void) { assemblePlaces(); }
+	~Game(void) { delete currentPlace, tempPlace; }
 
 	void play(void)
 	{
 		while (true)
 		{
-			cout << "You're in the " << currentRoom->GetName() << "!" << endl;
+			cout << "You're in the " << currentPlace->GetName() << "!" << endl;
 			string cmd = GetHumanCommand();
 
 			if (cmd == "q") break;
@@ -126,17 +126,17 @@ public:
 			else if (cmd == "h") cout << "Command list: (n) go north, (e) go east, (s) go south, (w) go west, (q) quit" << endl << endl;
 			else
 			{
-				if (cmd == "n") tempRoom = currentRoom->GoNorth();
-				else if (cmd == "e") tempRoom = currentRoom->GoEast();
-				else if (cmd == "s") tempRoom = currentRoom->GoSouth();
-				else if (cmd == "w") tempRoom = currentRoom->GoWest();
+				if (cmd == "n") tempPlace = currentPlace->GoNorth();
+				else if (cmd == "e") tempPlace = currentPlace->GoEast();
+				else if (cmd == "s") tempPlace = currentPlace->GoSouth();
+				else if (cmd == "w") tempPlace = currentPlace->GoWest();
 
-				if (tempRoom->nextRoom == currentRoom) cout << "There is no room in that direction!" << endl << endl;
+				if (tempPlace->nextPlace == currentPlace) cout << "There is no place in that direction!" << endl << endl;
 				else
 				{
-					currentRoom = tempRoom->nextRoom;
-					cout << "You spent " << tempRoom->costOfTravel << " seconds walking!" << endl << endl;
-					tempRoom = nullptr;
+					currentPlace = tempPlace->nextPlace;
+					cout << "You spent " << tempPlace->costOfTravel << " seconds walking!" << endl << endl;
+					tempPlace = nullptr;
 				}
 			}
 		}
