@@ -37,7 +37,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="placed.txt">
+    <Text Include="game.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

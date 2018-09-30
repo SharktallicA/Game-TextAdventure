@@ -1,4 +1,5 @@
-# Format: Room Name,Room Name to North,Room Name to East,Room to South,Room Name to West,North Cost,East Cost,South Cost,West Cost
+:Tunnels of Terror
+# Format: Place Name,Place Name to North,Place Name to East,Place to South,Place Name to West,North Cost,East Cost,South Cost,West Cost
 # Names are strings, costs are ints, and any blank walls are "-" (withouth quotes)
 Entrance,Damp Cavern,-,-,-,1,0,0,0
 Library,-,Mysterious Room,Trolls Room,-,0,3,1,0

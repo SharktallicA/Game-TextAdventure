@@ -17,11 +17,11 @@ private:
 	//Temporary place data for when needed
 	PlaceChangeData* tempPlace = nullptr;
 
-	//Loads and returns the raw place data from the "places.txt" file
+	//Loads and returns the raw place data from the "game.txt" file
 	vector<vector<string>> loadPlaces(void)
 	{
-		ifstream ifPlaces("places.txt");
-		if (!ifPlaces) throw "CRITICAL ERROR: places.txt data file is not present!\n";
+		ifstream ifPlaces("game.txt");
+		if (!ifPlaces) throw "CRITICAL ERROR: game.txt data file is not present!\n";
 
 		vector<vector<string>> rawPlaces;
 		string line;
@@ -31,7 +31,8 @@ private:
 			vector<string> delimited;
 			stringstream pStream(line);
 
-			if (line[0] != '#') //prevent operation for any comment lines within the text file
+			if (line[0] == ':') Utility::setWindowTitle(line.substr(1, line.length())); //read the first metadata line for the game's name
+			else if (line[0] != '#') //prevent operation for any comment or metadata lines within the text file
 			{
 				while (pStream.good())
 				{
