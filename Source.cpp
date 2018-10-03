@@ -19,7 +19,7 @@ int main(void)
 	try
 	{
 		Game nGame;
-		nGame.play();
+		nGame.Play();
 	}
 	catch (...) { return 1; }
 	return 0;

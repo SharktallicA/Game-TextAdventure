@@ -122,11 +122,11 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Place.h" />
     <ClInclude Include="PlaceChangeData.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="game.txt" />
-    <Text Include="Games\tot.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -28,7 +28,7 @@ private:
 
 public:
 	//Requests yes (true)/no (false) boolean input from the user
-	static bool Utility::getYesNo(void)
+	static bool getYesNo(void)
 	{
 		string strInput = "";
 		bool boolIsYes = true;
@@ -47,7 +47,7 @@ public:
 		return boolIsYes;
 	}
 	//Requests yes (true)/no (false) boolean input from the user with a given input notice message
-	static bool Utility::getYesNo(string strMessage)
+	static bool getYesNo(string strMessage)
 	{
 		string strInput = "";
 		bool boolIsYes = true;
@@ -69,14 +69,14 @@ public:
 	}
 
 	//Safely requests any string input from the user
-	static string Utility::getString(void)
+	static string getString(void)
 	{
 		string strInput = "";
 		getline(cin, strInput);
 		return strInput;
 	}
 	//Safely requests any string input from the user with a given input notice message
-	static string Utility::getString(string strMessage)
+	static string getString(string strMessage)
 	{
 		cout << strMessage;
 		string strInput = "";
@@ -85,7 +85,7 @@ public:
 	}
 
 	//Safely requests integer input from the user
-	static int Utility::getInteger(void)
+	static int getInteger(void)
 	{
 		string strInput = "";
 		int intInputAsInt = -1024;
@@ -97,7 +97,7 @@ public:
 		return intInputAsInt;
 	}
 	//Safely requests integer input from the user with a given input notice message
-	static int Utility::getInteger(string strMessage, int intMin, int intMax)
+	static int getInteger(string strMessage, int intMin, int intMax)
 	{
 		string strInput = "";
 		int intInputAsInt = -1024;
@@ -119,7 +119,7 @@ public:
 	}
 
 	//Generates a random number using 32-Bit Mersenne Twister 19937
-	static int Utility::generateNumber32(int intMin, int intMax)
+	static int generateNumber32(int intMin, int intMax)
 	{
 		int intResult;
 		random_device randGenerator;
@@ -129,7 +129,7 @@ public:
 		return intResult;
 	}
 	//Generates a random number using 64-Bit Mersenne Twister 19937
-	static int Utility::generateNumber64(int intMin, int intMax)
+	static int generateNumber64(int intMin, int intMax)
 	{
 		int intResult;
 		random_device randGenerator;
@@ -140,13 +140,13 @@ public:
 	}
 
 	//Clears the screen
-	static void Utility::clearScreen(void)
+	static void clearScreen(void)
 	{
 		system("cls");
 	}
 
 	//Waits for user input - good replacement for system("pause")
-	static char Utility::pause(string strMessage = "Press any key to continue...")
+	static char pause(string strMessage = "Press any key to continue...")
 	{
 		cout << strMessage;
 		char in = _getch();
@@ -155,13 +155,13 @@ public:
 	}
 
 	//Sets the C++ console window's title
-	static void Utility::setWindowTitle(string strTitle)
+	static void setWindowTitle(string strTitle)
 	{
 		SetConsoleTitle(strTitle.c_str());
 	}
 
 	//Sets the C++ console window's size
-	static void Utility::setWindowSize(unsigned int uintWidth, unsigned int uintHeight)
+	static void setWindowSize(unsigned int uintWidth, unsigned int uintHeight)
 	{
 		//purpose: sets the window size
 		//parametres: (uintWidth) specified window width, (uintHeight) specified window height
@@ -173,8 +173,8 @@ public:
 		MoveWindow(console, rectWindow.left, rectWindow.top, uintWidth, uintHeight, TRUE);
 	}
 
-	//Sets the C++ console window's colours
-	static void Utility::setColour(Colour clrFore = WHITE, Colour clrBack = BLACK)
+	//Sets the C++ console window's colours | Possible: BLACK, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, DEFAULT, GREY, LIGHT_BLUE, LIGHT_GREEN, LIGHT_AQUA, LIGHT_RED, LIGHT_PURPLE, LIGHT_YELLOW, WHITE
+	static void setColour(Colour clrFore = WHITE, Colour clrBack = BLACK)
 	{
 		//purpose: sets the console colour
 		//parametres: (clrFore) enumeration for foreground colour, (clrBack) enumeration for background colour (defaulted as black)
@@ -186,7 +186,7 @@ public:
 	}
 
 	//Moves the C++ console window's cursor
-	static void Utility::moveCursor(SHORT shrtX, SHORT shrtY)
+	static void moveCursor(SHORT shrtX, SHORT shrtY)
 	{
 		HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 		COORD point = { shrtX, shrtY };

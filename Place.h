@@ -21,6 +21,8 @@ public:
 	Place(string nName, Costs* nCosts) { name = nName; costs = nCosts; }
 	~Place(void) { delete north, east, south, west, costs; }
 
+	bool Update(void) { return true; }
+
 	//Defines the layout of places relative to this one
 	void MapPlaces(Place* nNorth = nullptr, Place* nEast = nullptr, Place* nSouth = nullptr, Place* nWest = nullptr)
 	{
@@ -40,7 +42,7 @@ public:
 	string GetName(void) { return name; }
 
 	//Returns this place's neighbours
-	string GetNeighbours()
+	string GetNeighbours(void)
 	{
 		string result = name + "'s neighbours: ";
 
