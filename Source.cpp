@@ -1,4 +1,5 @@
-/*
+
+0 /*
 	Game-TextAdventure
 	Khalid Ali 2018
 	http://khalidali.co.uk/
@@ -19,7 +20,7 @@ int main(void)
 	try
 	{
 		Game nGame;
-		nGame.play();
+		nGame.Play();
 	}
 	catch (...) { return 1; }
 	return 0;

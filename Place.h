@@ -17,9 +17,17 @@ private:
 
 	Costs* costs;
 
+	Scenario* scenario;
+
 public:
-	Place(string nName, Costs* nCosts) { name = nName; costs = nCosts; }
-	~Place(void) { delete north, east, south, west, costs; }
+	Place(string nName, Costs* nCosts, Scenario* nScenario = nullptr) { name = nName; costs = nCosts; scenario = nScenario; }
+	~Place(void) { delete north, east, south, west, costs, scenario; }
+
+	bool Update(void)
+	{
+		if (scenario) if (!scenario->Update()) scenario = nullptr;
+		return true;
+	}
 
 	//Defines the layout of places relative to this one
 	void MapPlaces(Place* nNorth = nullptr, Place* nEast = nullptr, Place* nSouth = nullptr, Place* nWest = nullptr)
@@ -40,7 +48,7 @@ public:
 	string GetName(void) { return name; }
 
 	//Returns this place's neighbours
-	string GetNeighbours()
+	string GetNeighbours(void)
 	{
 		string result = name + "'s neighbours: ";
 
@@ -71,4 +79,6 @@ public:
 		if (!west) return new PlaceChangeData(this, 0);
 		return new PlaceChangeData(west, costs->w);
 	}
+
+	Scenario* AccessScenario(void) { return scenario; }
 };

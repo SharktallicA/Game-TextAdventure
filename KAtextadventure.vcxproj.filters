@@ -35,12 +35,18 @@
     <ClInclude Include="Place.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Scenario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="game.txt">
+    <Text Include="Games\tot.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="Games\tot.txt">
+    <Text Include="game.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
